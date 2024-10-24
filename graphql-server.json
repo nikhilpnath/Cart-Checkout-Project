@@ -1,0 +1,68 @@
+{
+    "cart": [
+        {
+            "id": 1,
+            "totalAmount": 64.90,
+            "currency": "USD",
+            "customerId": 1,
+            "customerEmail": "john.doe@tryzens.com",
+            "items": [
+                {
+                    "id": 1,
+                    "name": "Laundry Detergent",
+                    "price": 29.95,
+                    "quantity": 2,
+                    "sku": "WH-001"
+                },
+                {
+                    "id": 2,
+                    "name": "Dustpan & Brush",
+                    "price": 34.95,
+                    "quantity": 1,
+                    "sku": "SP-002"
+                }
+            ],
+            "createdTime": "2024-10-18T10:30:00Z",
+            "updatedTime": "2024-10-18T12:00:00Z"
+        }
+    ],
+    "order": [
+        {
+            "id": 1,
+            "orderId": "ORD-001",
+            "items": [
+                {
+                    "id": 1,
+                    "name": "Laundry Detergent",
+                    "price": 29.95,
+                    "quantity": 2,
+                    "sku": "WH-001"
+                },
+                {
+                    "id": 2,
+                    "name": "Dustpan & Brush",
+                    "price": 34.95,
+                    "quantity": 1,
+                    "sku": "SP-002"
+                }
+            ],
+            "customerId": 1,
+            "totalAmount": 64.90,
+            "currency": "USD",
+            "customerEmail": "john_doe@gmail.com",
+            "shippingAddress": {
+                "firstName": "John",
+                "lastName": "Doe",
+                "country": "USA",
+                "streetAddress": "123 Main St",
+                "city": "Los Angeles",
+                "state": "California",
+                "zipCode": "90001"
+            },
+            "shippingMethod": "Free Shipping",
+            "payment": "Googlepay",
+            "createdTime": "2024-10-18T10:30:00Z",
+            "updatedTime": "2024-10-18T12:00:00Z"
+        }
+    ]
+}
