@@ -102,10 +102,11 @@ export async function action({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
   if (formData.get("actiontype") === "email") {
-    const email = formData.get("email") as string;
+    const emailData = formData.get("email") as string;
 
     try {
-      return addEmail(email);
+      const result = await addEmail(emailData);
+      return { email: result.email, id: result.id };
     } catch (err) {
       const error = err as Error & { name: string };
 
