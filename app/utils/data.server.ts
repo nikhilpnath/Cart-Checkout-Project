@@ -167,7 +167,10 @@ export async function addOrderData(orderData: { [k: string]: FormDataEntryValue 
     }
     catch (err) {
         await prisma.order.delete({ where: { id: data.id } })
-        throw new Error("Error occured!, Couldn't complete your order")
+        // throw new Error("Error occured!, Couldn't complete your order")
+        const error = new Error("Order Failed - Please Try Again ") as Error & { name?: string };
+        error.name = 'orderFailed';
+        throw error;
     }
 
 }

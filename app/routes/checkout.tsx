@@ -130,12 +130,17 @@ export async function action({ request }: ActionFunctionArgs) {
   } else if (formData.get("actiontype") === "orderSubmit") {
     const Orderdata = Object.fromEntries(formData);
 
-    const result = await addOrderData(Orderdata);
-
-    if (result.payment) {
+    try {
+      const result = await addOrderData(Orderdata);
       return redirect(`/confirmation?success=true&orderId=${result.orderId}`);
+    } catch (err) {
+      const error = err as Error & { name: string };
+
+      if (error.name === "orderFailed") {
+        return { error: error.message };
+      }
+      return null;
     }
-    return null;
   }
 
   return null;
