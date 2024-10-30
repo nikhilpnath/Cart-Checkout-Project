@@ -2,6 +2,7 @@ import { gql } from '@apollo/client';
 import { redirect } from '@remix-run/react';
 import { prisma } from '~/db/db.server'
 import { client } from '~/graphql/client.server';
+import { Address as AddressType } from '~/types/types';
 
 export async function addEmail(email: string) {
 
@@ -36,16 +37,16 @@ export async function getCountries() {
 }
 
 
-export async function addAddress(address: { [k: string]: FormDataEntryValue }) {
+export async function addAddress(address: AddressType) {
 
     const shippingAddress = {
-        firstName: address.fname as string,
-        lastName: address.lname as string,
-        country: address.country as string,
-        streetAddress: address.streetAdd as string,
-        city: address.city as string,
-        state: (address.state as string) || undefined,
-        zipcode: address.zip as string,
+        firstName: address.fname,
+        lastName: address.lname,
+        country: address.country,
+        streetAddress: address.streetAddress,
+        city: address.city,
+        state: address.state,
+        zipcode: address.zip,
     };
 
     try {
@@ -55,7 +56,7 @@ export async function addAddress(address: { [k: string]: FormDataEntryValue }) {
         })
 
         const order = await prisma.order.update({
-            where: { id: address.id as string },
+            where: { id: address.id },
             data: { shippingAddress },
         })
 

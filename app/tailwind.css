@@ -10,7 +10,7 @@
   @apply w-3/5 md:w-2/5 mx-auto px-7 py-12 rounded-lg text-center mt-10
 }
 .input {
-  @apply border-2 2xl:text-xl border-gray-500 block w-full mb-2 py-1 px-2 rounded focus:outline-[#0070b3]
+  @apply border-2 2xl:text-xl border-gray-500 block w-full py-1 px-2 rounded focus:outline-[#0070b3]
 }
 
 .button{
@@ -29,6 +29,9 @@ form{
   @apply w-full sm:w-3/5 md:w-full lg:w-3/5 p-3
 }
 
+form div{
+  @apply mb-2
+}
 
 .contact{
   @apply min-[400px]:flex justify-between items-center py-2 px-10
@@ -36,4 +39,8 @@ form{
 
 label{
   @apply 2xl:text-xl
+}
+
+.error{
+  @apply text-red-700 mt-[2px]
 }

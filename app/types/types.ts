@@ -24,3 +24,15 @@ export interface Country {
     code: string;
     shippingMethods: Array<string>;
 }
+
+export interface Address {
+    id: string;
+    fname: string;
+    lname: string;
+    country: string;
+    streetAddress: string;
+    city: string;
+    state?: string | undefined;
+    zip: string;
+
+}

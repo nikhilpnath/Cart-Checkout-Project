@@ -1,6 +1,8 @@
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
+import { useRemixForm } from "remix-hook-form";
 import { Country } from "~/types/types";
+import { FormData, resolver } from "~/utils/validation/addressFormValidation";
 
 interface PropTypes {
   readOnly: boolean;
@@ -32,41 +34,55 @@ export default function ShippingAddress({
     }
   }, [address]);
 
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useRemixForm<FormData>({
+    mode: "onSubmit",
+    resolver,
+    stringifyAllValues: false,
+    // Prevents form data from being wrapped in quotes during submission
+  });
+
   return (
     <div className=" form_center">
-      <Form method="post" >
-        <input type="hidden" name="actiontype" value="shippingAddress" />
-        <input type="hidden" name="id" value={id} />
+      <Form method="post" onSubmit={handleSubmit}>
+        <input
+          type="hidden"
+          {...register("actiontype")}
+          value="shippingAddress"
+        />
+        <input type="hidden" {...register("id")} value={id} />
         <h2>Shipping address</h2>
         <div>
           <label htmlFor="fname">First Name</label>
           <input
             type="text"
-            name="fname"
+            {...register("fname")}
             id="fname"
-            required
             readOnly={readOnly}
             className={`input ${readOnly ? "focus:outline-none" : ""}`}
           />
+          {errors.fname && <p className="error">{errors.fname.message}</p>}
         </div>
         <div>
           <label htmlFor="lname">Last Name</label>
           <input
             type="text"
-            name="lname"
+            {...register("lname")}
             id="lname"
-            required
             readOnly={readOnly}
             className={`input ${readOnly ? "focus:outline-none" : ""}`}
           />
+          {errors.lname && <p className="error">{errors.lname.message}</p>}
         </div>
         {countries.length > 0 && (
           <div>
             <label htmlFor="country">Country</label>
             <select
-              name="country"
+              {...register("country")}
               id="country"
-              required
               onChange={(e) => setCountry(e.target.value)}
               className="block p-[2px] focus:outline-[#0070b3] w-full border-2 border-[#6b7280] bg-white mb-3"
               disabled={readOnly}
@@ -77,27 +93,31 @@ export default function ShippingAddress({
                 </option>
               ))}
             </select>
+
+            {errors.country && <p className="error">{errors.country.message}</p>}
           </div>
         )}
         <div>
           <label htmlFor="streetAdd">Street Address</label>
           <input
             type="text"
-            name="streetAdd"
+            {...register("streetAddress")}
             id="streetAdd"
             className={`input ${readOnly ? "focus:outline-none" : ""}`}
             readOnly={readOnly}
           />
+          {errors.streetAddress && <p className="error">{errors.streetAddress.message}</p>}
         </div>
         <div>
           <label htmlFor="city">City</label>
           <input
             type="text"
-            name="city"
+            {...register("city")}
             id="city"
             className={`input ${readOnly ? "focus:outline-none" : ""}`}
             readOnly={readOnly}
           />
+          {errors.city && <p className="error">{errors.city.message}</p>}
         </div>
         <div>
           <label htmlFor="state">
@@ -105,23 +125,23 @@ export default function ShippingAddress({
           </label>
           <input
             type="text"
-            name="state"
+            {...register("state")}
             id="state"
-            required={country === "US" ? true : false}
             className={`input ${readOnly ? "focus:outline-none" : ""}`}
             readOnly={readOnly}
           />
+          {errors.state && <p className="error">{errors.state.message}</p>}
         </div>
         <div>
           <label htmlFor="zip">Zip Code</label>
           <input
             type="text"
-            name="zip"
+            {...register("zip")}
             id="zip"
-            required
             className={`input ${readOnly ? "focus:outline-none" : ""}`}
             readOnly={readOnly}
           />
+          {errors.zip && <p className="error">{errors.zip.message}</p>}
         </div>
         <div className="text-center">
           <button

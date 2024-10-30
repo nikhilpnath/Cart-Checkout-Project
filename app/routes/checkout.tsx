@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { useState } from "react";
+import { getValidatedFormData } from "remix-hook-form";
 import {
   Cart,
   Email,
@@ -16,6 +17,7 @@ import {
   addShippingMethod,
   getCountries,
 } from "~/utils/data.server";
+import { resolver, FormData } from "~/utils/validation/addressFormValidation";
 
 export default function Checkout(): JSX.Element {
   const [isEmailSubmitted, setIsEmailSubmitted] = useState<boolean>(false);
@@ -99,6 +101,10 @@ export const loader = async () => {
 };
 
 export async function action({ request }: ActionFunctionArgs) {
+  const clonedRequest = request.clone();
+  // Clone the request because getValidatedFormData also attempts to access form data from it,
+  // and we've already accessed it using request.formData()
+
   const formData = await request.formData();
 
   if (formData.get("actiontype") === "email") {
@@ -115,13 +121,23 @@ export async function action({ request }: ActionFunctionArgs) {
       }
     }
   } else if (formData.get("actiontype") === "shippingAddress") {
-    const addressInputs = Object.fromEntries(formData);
-    const { address, id } = (await addAddress(addressInputs)) as {
+    const {
+      errors,
+      data,
+      receivedValues: defaultValues,
+    } = await getValidatedFormData<FormData>(clonedRequest, resolver, true);
+    // Pass `true` to match the stringifyAllValues setting used in the address component
+
+    if (errors) {
+      return json({ errors, defaultValues });
+    }
+
+    const { address, id } = (await addAddress(data)) as {
       address: boolean;
       id: string;
     };
 
-    return { address, id };
+    return json({ address, id });
   } else if (formData.get("actiontype") === "shippingMethod") {
     const id = formData.get("id") as string;
     const shippingMethod = formData.get("shipping_method") as string;
