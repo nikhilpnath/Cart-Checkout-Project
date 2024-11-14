@@ -39,40 +39,40 @@ export default function ShippingMethods({
   return (
     <div className="my-4 form_center">
       <Form method="post">
-        <input type="hidden" name="actiontype" value="shippingMethod" />
-        <input type="hidden" name="id" value={id} />
-        <h2>Shipping Methods</h2>
+        <fieldset disabled={readOnly}>
+          <input type="hidden" name="actiontype" value="shippingMethod" />
+          <input type="hidden" name="id" value={id} />
+          <h2>Shipping Methods</h2>
 
-        {deliveryMethods?.length > 0 ? (
-          deliveryMethods.map((method, index) => (
-            <div key={index}>
-              <input
-                type="radio"
-                id={method.toLowerCase()}
-                name="shipping_method"
-                value={method.toLowerCase()}
-                className="mr-2"
-                required
-                disabled={readOnly}
-              />
-              <label htmlFor={method.toLowerCase()}>{method}</label>
-            </div>
-          ))
-        ) : (
-          <p>No shipping methods available for this country.</p>
-        )}
+          {deliveryMethods?.length > 0 ? (
+            deliveryMethods.map((method, index) => (
+              <div key={index}>
+                <input
+                  type="radio"
+                  id={method.toLowerCase()}
+                  name="shipping_method"
+                  value={method.toLowerCase()}
+                  className="mr-2"
+                  required
+                />
+                <label htmlFor={method.toLowerCase()}>{method}</label>
+              </div>
+            ))
+          ) : (
+            <p>No shipping methods available for this country.</p>
+          )}
 
-        <div className="text-center">
-          <button
-            disabled={readOnly}
-            type="submit"
-            className={`button mt-3 ${
-              readOnly ? "bg-[#7d9f8a]" : "bg-green-700"
-            }`}
-          >
-            Continue
-          </button>
-        </div>
+          <div className="text-center">
+            <button
+              type="submit"
+              className={`button mt-3 ${
+                readOnly ? "bg-[#7d9f8a]" : "bg-green-700"
+              }`}
+            >
+              Continue
+            </button>
+          </div>
+        </fieldset>
       </Form>
     </div>
   );

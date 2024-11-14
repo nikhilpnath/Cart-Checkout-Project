@@ -26,28 +26,27 @@ export default function Email({
   return (
     <div className=" form_center mt-5 md:mt-0">
       <Form method="post">
-        <h2>Email Address</h2>
-        <input type="hidden" name="actiontype" value="email" />
-        <div>
-          <input
-            type="email"
-            required
-            name="email"
-            className={`input ${readOnly ? "focus:outline-none" : ""}`}
-            readOnly={readOnly}
-          />
-
-          {error && <p className="text-red-600 mb-2">{error}</p>}
-        </div>
-        <div className="text-center">
-          <button
-            type="submit"
-            disabled={readOnly}
-            className={`button ${readOnly ? "bg-[#7d9f8a]" : "bg-green-700"}`}
-          >
-            Continue
-          </button>
-        </div>
+        <fieldset disabled={readOnly}>
+          <h2>Email Address</h2>
+          <input type="hidden" name="actiontype" value="email" />
+          <div>
+            <input
+              type="email"
+              required
+              name="email"
+              className={`input ${readOnly ? "focus:outline-none" : ""}`}
+            />
+            {error && <p className="text-red-600 mb-2">{error}</p>}
+          </div>
+          <div className="text-center">
+            <button
+              type="submit"
+              className={`button ${readOnly ? "bg-[#7d9f8a]" : "bg-green-700"}`}
+            >
+              Continue
+            </button>
+          </div>
+        </fieldset>
       </Form>
     </div>
   );
